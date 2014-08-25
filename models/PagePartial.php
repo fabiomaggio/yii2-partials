@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
+use dosamigos\translateable\TranslateableBehavior;
 
 /**
  * This is the model class for table "page_partials".
@@ -52,6 +53,12 @@ class PagePartial extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(), [
+            'trans' => [
+                'class' => TranslateableBehavior::className(),
+                'translationAttributes' => [
+                    'name', 'content'
+                ]
+            ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
@@ -61,5 +68,13 @@ class PagePartial extends \yii\db\ActiveRecord
                 'value' => function() { return time(); },
             ]
         ]);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslations()
+    {
+        return $this->hasMany(PagePartialLang::className(), ['page_partial_id' => 'id']);
     }
 }
