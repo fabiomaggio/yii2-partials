@@ -1,7 +1,7 @@
 <?php
 use dosamigos\ckeditor\CKEditor;
 ?>
-<div class="tab-content">
+<div class="language-tab-content">
     <input type="hidden" name="<?php echo $language; ?>[PagePartialLang][language]" value="<?php echo $language; ?>">
     
     <?= $form->field($model, 'name')->textInput([
