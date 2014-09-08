@@ -3,6 +3,9 @@
 namespace infoweb\partials\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "page_partials_lang".
@@ -30,7 +33,15 @@ class PagePartialLang extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['page_partial_id', 'language', 'name', 'content', 'created_at', 'updated_at'], 'required'],
+            // Required
+            [['page_partial_id', 'language'], 'required'],
+            // Only required for the app language
+            [['name', 'content'], 'required', 'when' => function($model) {
+                return $model->language == Yii::$app->language;
+            }],
+            // Trim
+            [['name', 'content'], 'trim'],
+            // Types
             [['page_partial_id', 'created_at', 'updated_at'], 'integer'],
             [['content'], 'string'],
             [['language'], 'string', 'max' => 2],
@@ -51,6 +62,20 @@ class PagePartialLang extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+    
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+                'value' => function() { return time(); },
+            ]
+        ]);
     }
     
     /**

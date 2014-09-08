@@ -32,11 +32,17 @@ class PagePartial extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            // Required
+            [['type'], 'required'],
+            // Types
             [['type'], 'string'],
-            [['created_at', 'updated_at'], 'integer']
+            ['type', 'in', 'range' => ['system', 'user-defined']],
+            [['created_at', 'updated_at'], 'integer'],
+            // Default type to 'user-defined'
+            ['type', 'default', 'value' => 'user-defined']           
         ];
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -56,7 +62,8 @@ class PagePartial extends \yii\db\ActiveRecord
             'trans' => [
                 'class' => TranslateableBehavior::className(),
                 'translationAttributes' => [
-                    'name', 'content'
+                    'name',
+                    'content'
                 ]
             ],
             'timestamp' => [

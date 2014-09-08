@@ -1,15 +1,18 @@
 <?php
-
 use yii\helpers\Html;
+use infoweb\cms\CMSAsset;
+
+// Register assets
+CMSAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model infoweb\partials\models\PagePartial */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Page Partial',
-]) . ' ' . $model->id;
+]) . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Page Partials'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="page-partial-update">

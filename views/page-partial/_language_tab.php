@@ -1,21 +1,17 @@
 <?php
 use dosamigos\ckeditor\CKEditor;
 ?>
-<div class="language-tab-content">
-    <input type="hidden" name="<?php echo $language; ?>[PagePartialLang][language]" value="<?php echo $language; ?>">
-    
-    <?= $form->field($model, 'name')->textInput([
+<div class="tab-content language-tab">
+
+    <?= $form->field($model, "[{$model->language}]name")->textInput([
         'maxlength' => 255,
-        'name' => "{$language}[PagePartialLang][name]",
-        'id' => "name-{$language}",
+        'name' => "PagePartialLang[{$model->language}][name]"
     ]); ?>
     
-    <?= $form->field($model, 'content')->widget(CKEditor::className(), [
+    <?= $form->field($model, "[{$model->language}]content")->widget(CKEditor::className(), [
         'options' => [
             'rows' => 20,
-            'name' => "{$language}[PagePartialLang][content]",
-            'id' => "{$language}[PagePartialLang][content]",
-            
+            'name' => "PagePartialLang[{$model->language}][content]",           
         ],
         'clientOptions' => [
             'height' => 300,
